@@ -1,0 +1,10 @@
+updated on 2015-12-11
+
+copy your Mi band SQLite database file to the current working directiory of R. You can find the database file in \Data\Data\com.xiaomi.hm.health\Databases\origin_db using RExplorer(for android). To access that file, you need root permission. The database file's name should remain "origin_db" and in the working directiory of R. Then just run the script, it will automatically plot total sleep duration, deep sleep duration and steps trend (using lm) to png files.
+
+reference:
+http://www.miui.com/forum.php?mod=viewthread&tid=2497413&page=1
+
+安卓手机使用RE管理器（需ROOT权限）将小米手环的数据库文件导出，文件目录为\Data\Data\com.xiaomi.hm.health\Databases\origin_db，将文件放置于R的工作路径，文件名不得修改。运行R脚本，将会得到睡眠总时间，深度睡眠时间和步数的趋势图（使用线性模型）。
+参考：
+http://www.miui.com/forum.php?mod=viewthread&tid=2497413&page=1
