@@ -211,9 +211,8 @@ schoolmean<-apply(schoolresample,1,mean)
 vacationresample<-matrix(sample(vacation$step,1000,replace = T),nrow = 100)
 vacationmean<-apply(vacationresample,1,mean)
 testresult<-t.test(schoolmean,vacationmean)
-difference<-mean(schoolmean)-mean(vacationmean)
 ```
-We are 1-2.8563765 &times; 10<sup>-56</sup> confident to say step of school day is different from that of vacation. The mean difference is 3542.476(school Mean - Vacation Mean).
+We are 1-2.8563765 &times; 10<sup>-56</sup> confident to say step of school day is different from that of vacation.
 
 # Is there corelationship between sleep and step?
 
@@ -286,7 +285,4 @@ Since the number of statistic with total sleep under 300 is quite small, the cur
    coefs<-summary(lm(step~sleep.light+sleep.deep,data=completedata))$coefficient
 ```
   
-One minute increase of light sleep leads to -15.2790414 change of step. One minute increase of deep sleep leads to 5.4226326 change of step.
-  
-# Conclusion
-The subject sleep longer on Sunday and walk more on Monday. Step of school day is different from that of vacation. There is a weak corelation between sleep and step. Around 7 hours' sleep has the highest efficiency of sleep(deep sleep/total sleep). 
+  One minute increase of light sleep leads to -15.2790414 change of step. One minute increase of deep sleep leads to 5.4226326 change of step.

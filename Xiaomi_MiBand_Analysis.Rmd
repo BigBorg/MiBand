@@ -8,7 +8,7 @@ output: html_document
 This report conducts data analysis of Xiaomi Mi Band's data from android sqlite database. 
 
 # Data
-For personalized purpose, the data can be obtained from android phone's path "/data/data/com.xiaomi.hm.health". Note that you need root access to copy files in the directory. Use RootExplorer to copy the whole directory named "databases" to R working directory.
+For personalized purpose, the data can be obtained from android phone's path "/data/data/com.xiaomi.hm.health". Note that you need root access to copy files in the directory. Use RootExplorer to copy the whole directory named "databases" to R working directory. Data used for this report can be accessed from [github](https://github.com/BigBorg/MiBand)
 
 # Load Libraries  
 ```{r message=FALSE}
@@ -21,7 +21,7 @@ library(dplyr)
 ```
 
 # Read Database File  
-Using SQLite library to read in sqlite database file
+Using SQLite library to read in sqlite database file. Replace userid if you are running code to analyze your own data. You can find userid in Xiaomi Mi Band app.
 ```{r}
 setwd("./databases")
 userid<-"963276123"
@@ -51,7 +51,10 @@ Filling in missing value with mean value for the same day of a week.
 ```{r}
 cleanData$weekday<-weekdays(cleanData$date)
 groupeddata<-group_by(cleanData,weekday)
-avgs<-summarize(groupeddata,sleep.light=mean(sleep.light[sleep.light!=0]),sleep.deep=mean(sleep.deep[sleep.deep!=0]),step=mean(step[step!=0]))
+avgs<-summarize(groupeddata,
+                sleep.light=mean(sleep.light[sleep.light!=0]),
+                sleep.deep=mean(sleep.deep[sleep.deep!=0]),
+                step=mean(step[step!=0]))
 replace <- function(rowunit,avgs){
         for( col in 1:ncol(rowunit) ){
                 if(rowunit[,col]==0){
@@ -83,22 +86,44 @@ The date frame records data frome `r datedur[1]` to `r datedur[2]` and has `r nr
 Plotting:
 ```{r message=FALSE}
 boxplot(completedata$sleep.light/60,completedata$sleep.deep/60,names = c("light sleep","deep sleep"))
-ggplot(data=completedata,aes(x=date,y=value,col=type))+geom_point(aes(y=sleep.light,col="light sleep"))+geom_point(aes(y=sleep.deep,col="deep sleep"))
-ggplot(data=completedata,aes(x=date,y=step))+geom_point()+geom_smooth(method="auto")+labs(title="Steps")
+title("Sleep Box Plot")
+ggplot(data=completedata,aes(x=date,y=value,col=type))+
+        geom_point(aes(y=sleep.light/60,col="light sleep"))+
+        geom_point(aes(y=sleep.deep/60,col="deep sleep"))+
+        geom_smooth(aes(y=sleep.light/60,col="light sleep"))+
+        geom_smooth(aes(y=sleep.deep/60,col="deep sleep"))+
+        labs(y="sleep(hour)")
+        
+ggplot(data=completedata,aes(x=date,y=step))+
+        geom_point()+
+        geom_smooth(method="auto")+
+        labs(title="Steps")
 ```  
   
-# Which day of a week has the highest value? Which day of a week has the lowest value?
+# Which day of a week has the highest value?
 ```{r}
 groupeddata<-group_by(completedata,weekday)
-avgs<-summarize(groupeddata,sleep.light=mean(sleep.light[sleep.light!=0]),sleep.deep=mean(sleep.deep[sleep.deep!=0]),step=mean(step[step!=0]))
+#avgs<-summarize(groupeddata,
+#                sleep.light=mean(sleep.light[sleep.light!=0]),
+#                sleep.deep=mean(sleep.deep[sleep.deep!=0]),
+#                step=mean(step[step!=0]))
 avgs<-avgs[c(4,2,6,7,5,1,3),] #sort by weekday
 
-p1<-ggplot(data=avgs,aes(x=weekday,y=sleep,col="type"))+geom_line(aes(y=sleep.light,group=1,col="light sleep"))+geom_line(aes(y=sleep.deep,group=1,col="deep sleep"))+labs(title="Sleep Averages")
-p2<-ggplot(data=avgs,aes(x=weekday,y=step))+geom_line(aes(group=1))+labs(title="Step Averages")
+p1<-ggplot(data=avgs,aes(x=weekday,y=sleep/60,col="type"))+
+        geom_line(aes(y=sleep.light/60,group=1,col="light sleep"))+
+        geom_line(aes(y=sleep.deep/60,group=1,col="deep sleep"))+
+        labs(title="Sleep Averages")+
+        labs(y="average sleep(hour)")+
+        theme(axis.text.x = element_text(face="bold", color="#993333",angle=45))
+p2<-ggplot(data=avgs,aes(x=weekday,y=step))+
+        geom_line(aes(group=1))+
+        labs(title="Step Averages")+
+        theme(axis.text.x = element_text(face="bold", color="#993333",angle=45))
 grid.arrange(p1,p2,ncol=2)
 maxindex<-data.frame()
 for(col in 2:ncol(avgs)){
-        if(col=="sleep.light") maxindex<-t(avgs[,col]==max(avgs[,col]))
+        if(col=="sleep.light") 
+                maxindex<-t(avgs[,col]==max(avgs[,col]))
         maxindex<-rbind(maxindex,t(avgs[,col]==max(avgs[,col])))
 }
 max<-c()
@@ -121,10 +146,69 @@ title(main="Step")
 As shown in the boxplot, mean step of school day is higher than that of vacation.
 
 ```{r}
+set.seed(0)
 schoolresample<-matrix(sample(schoolday$step,1000,replace=T),nrow=100)
-schoolmedian<-apply(schoolresample,1,median)
+schoolmean<-apply(schoolresample,1,mean)
 vacationresample<-matrix(sample(vacation$step,1000,replace = T),nrow = 100)
-vacationmedian<-apply(vacationresample,1,median)
-testresult<-t.test(schoolmedian,vacationmedian)
+vacationmean<-apply(vacationresample,1,mean)
+testresult<-t.test(schoolmean,vacationmean)
+difference<-mean(schoolmean)-mean(vacationmean)
 ```
-We are 1-`r testresult$p.value` confident to say step of school day is different from that of vacation.
+We are 1-`r testresult$p.value` confident to say step of school day is different from that of vacation. The mean difference is `r difference`(school Mean - Vacation Mean).
+
+# Is there corelationship between sleep and step?
+
+```{r}
+completedata$efficiency<-with(completedata,sleep.deep/(sleep.deep+sleep.light))
+cors<-with(completedata,c(
+        cor(step,sleep.light),
+        cor(step,sleep.deep),
+        cor(step,sleep.light+sleep.deep),
+        cor(step,efficiency)
+        )
+)
+names(cors)<-c("step-sleep.light","step-sleep.deep","step-total sleep","step-efficiency")
+cors
+```  
+Corelationship indicates that the longer you sleep, the fewer you are likely to walk. But such corelationship is quit weak. Note that within one row, which means on the same day, step of that day happens after sleep.
+
+# The longer you sleep, the higher efficiency of sleep you have?
+```{r}
+with(completedata,cor(sleep.deep+sleep.light,efficiency))
+```
+The longer you sleep, the lower efficiency of sleep you have.
+
+# At which point of total sleep you get highest sleep efficiency?
+```{r}
+# Use manipulate if you are copy-pasting code to R studio environment
+# manipulate({
+#        Y<-predict(loess(effciiency~I(sleep.light+sleep.deep),data=completedata),M)
+#        ggplot(data=completedata,aes(sleep.light+sleep.deep,efficiency))+
+#                geom_point()+geom_smooth(method="auto")+
+#                geom_vline(x=M)+labs(x="Total sleep")+labs(title=paste("Efficiency: 
+# ",Y,sep=""))
+#    },
+#    M=slider(
+#            min(completedata$sleep.light+completedata$sleep.deep),
+#            max(completedata$sleep.light+completedata$sleep.deep),
+#            initial = min(completedata$sleep.light+completedata$sleep.deep)
+#            )
+#)
+Y<-predict(loess(efficiency~I(sleep.light+sleep.deep),data=completedata),415)
+        ggplot(data=completedata,aes(sleep.light+sleep.deep,efficiency))+
+                geom_point()+geom_smooth(method="auto")+
+                geom_vline(x=415)+labs(x="Total sleep")+
+                labs(title=paste("Efficiency: ",Y,sep=""))
+```  
+
+Since the number of statistic with total sleep under 300 is quite small, the curve is largely influenced by just a few points. Thus the left half should be considered unreliabable. But when the toal sleep is larger than 300, we see a peak value with a total sleep of about 415 minutes. So about 7 hours' sleep yields the highest efficiency.
+
+# Use total light sleep and deep sleep to predict step
+```{r}
+   coefs<-summary(lm(step~sleep.light+sleep.deep,data=completedata))$coefficient
+```  
+  
+One minute increase of light sleep leads to `r coefs[2,1]` change of step. One minute increase of deep sleep leads to `r coefs[3,1]` change of step.
+  
+# Conclusion
+The subject sleep longer on Sunday and walk more on Monday. Step of school day is different from that of vacation. There is a weak corelation between sleep and step. Around 7 hours' sleep has the highest efficiency of sleep(deep sleep/total sleep). 
