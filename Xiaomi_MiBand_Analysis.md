@@ -274,7 +274,23 @@ Y<-predict(loess(efficiency~I(sleep.light+sleep.deep),data=completedata),415)
 
 ![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-1.png) 
 
-Since the number of statistic with total sleep under 300 is quite small, the curve is largely influenced by just a few points. Thus the left half should be considered unreliabable. But when the toal sleep is larger than 300, we see a peak value with a total sleep of about 415 minutes. So about 7 hours' sleep yields the highest efficiency.
+The efficiency is extremely high when the total sleep is less than 300. That might be the body trying to compensate loss of total sleep time by increasing deep sleep percentage. Though efficiency is high when you sleep for less than 300 minutes, deep sleep duration is not sufficent for the total sleep duration is short. At about 415 minutes, we see a slightly high efficiency relatively. Then efficiency goes downward again when you sleep for longer than that.
+
+# Relationship between total sleep duration and deep sleep duration
+
+```r
+ggplot(data=completedata,aes(x=sleep.light+sleep.deep,y=sleep.deep))+
+                geom_point()+
+                geom_smooth(method="auto")+
+                labs(title="Deep Sleep/Total Sleep",x="Total Sleep(minute)",y="Deep Sleep(minute)")
+```
+
+```
+## geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
+```
+
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14-1.png) 
+Again, using deep sleep duration to evaluate sleep quality, the turning point is still at about 415 minutes.
 
 # Use total light sleep and deep sleep to predict step
 
@@ -285,4 +301,4 @@ Since the number of statistic with total sleep under 300 is quite small, the cur
 One minute increase of light sleep leads to -15.2790414 change of step. One minute increase of deep sleep leads to 5.4226326 change of step.
   
 # Conclusion
-The subject sleep longer on Sunday and walk more on Monday. Step of school day is different from that of vacation. There is a weak corelation between sleep and step. Around 7 hours' sleep has the highest efficiency of sleep(deep sleep/total sleep). 
+The subject sleep longer on Sunday and walk more on Monday. Step of school day is different from that of vacation. There is a weak corelation between sleep and step. Around 7 hours' sleep has the relative high efficiency of sleep(deep sleep/total sleep). 

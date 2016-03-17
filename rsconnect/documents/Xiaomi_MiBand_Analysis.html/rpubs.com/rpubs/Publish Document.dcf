@@ -1,0 +1,7 @@
+name: Publish Document
+account: rpubs
+server: rpubs.com
+bundleId:
+        https://api.rpubs.com/api/v1/document/161705/32111a472d1943dfbb762c253a07f5ad
+url: http://rpubs.com/Borg/161705
+when: 1458218584.26231
