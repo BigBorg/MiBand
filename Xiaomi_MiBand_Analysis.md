@@ -272,10 +272,6 @@ Y<-predict(loess(efficiency~I(sleep.light+sleep.deep),data=completedata),415)
                 labs(title=paste("Efficiency: ",Y,sep=""))
 ```
 
-```
-## geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
-```
-
 ![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-1.png) 
 
 Since the number of statistic with total sleep under 300 is quite small, the curve is largely influenced by just a few points. Thus the left half should be considered unreliabable. But when the toal sleep is larger than 300, we see a peak value with a total sleep of about 415 minutes. So about 7 hours' sleep yields the highest efficiency.

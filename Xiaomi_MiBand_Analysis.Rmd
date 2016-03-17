@@ -179,7 +179,7 @@ with(completedata,cor(sleep.deep+sleep.light,efficiency))
 The longer you sleep, the lower efficiency of sleep you have.
 
 # At which point of total sleep you get highest sleep efficiency?
-```{r}
+```{r message=FALSE}
 # Use manipulate if you are copy-pasting code to R studio environment
 # manipulate({
 #        Y<-predict(loess(effciiency~I(sleep.light+sleep.deep),data=completedata),M)
