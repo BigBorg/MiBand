@@ -90,15 +90,36 @@ title("Sleep Box Plot")
 ggplot(data=completedata,aes(x=date,y=value,col=type))+
         geom_point(aes(y=sleep.light/60,col="light sleep"))+
         geom_point(aes(y=sleep.deep/60,col="deep sleep"))+
-        geom_smooth(aes(y=sleep.light/60,col="light sleep"))+
-        geom_smooth(aes(y=sleep.deep/60,col="deep sleep"))+
+        #geom_smooth(aes(y=sleep.light/60,col="light sleep"))+
+        #geom_smooth(aes(y=sleep.deep/60,col="deep sleep"))+
         labs(y="sleep(hour)")
         
 ggplot(data=completedata,aes(x=date,y=step))+
         geom_point()+
-        geom_smooth(method="auto")+
+        #geom_smooth(method="auto")+
         labs(title="Steps")
 ```  
+
+# Time Sequence Analysis  
+Time sequence analysis on steps:
+```{r}
+weekly_ts_analysis <- function(data){
+        tsobj <- ts(data,start=1,frequency=7)
+        components <- decompose(tsobj)
+        plot(components)
+}
+weekly_ts_analysis(completedata$step)
+```  
+  
+Time sequence analysis on deep sleep:
+```{r}
+weekly_ts_analysis(completedata$sleep.deep)
+```
+  
+Time sequence analysis on light sleep:
+```{r}
+weekly_ts_analysis(completedata$sleep.light)
+```
   
 # Which day of a week has the highest value?
 ```{r}
@@ -197,7 +218,7 @@ The longer you sleep, the lower efficiency of sleep you have.
 Y<-predict(loess(efficiency~I(sleep.light+sleep.deep),data=completedata),415)
         ggplot(data=completedata,aes(sleep.light+sleep.deep,efficiency))+
                 geom_point()+geom_smooth(method="auto")+
-                geom_vline(x=415)+labs(x="Total sleep")+
+                geom_vline(xintercept=415)+labs(x="Total sleep")+
                 labs(title=paste("Efficiency: ",Y,sep=""))
 ```  
 
