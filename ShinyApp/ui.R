@@ -10,6 +10,7 @@ shinyUI(pageWithSidebar(
   headerPanel("MiBand Analysis"),
   
   sidebarPanel(
+<<<<<<< HEAD
         p("If the cloud server does not have MiBand library installed, it might take some time to install the package."),
         p("If you don't have MiBand, click the Demo button then Submit button to use built-in data. Do not change default user id when using demo data."),
         shiny::actionButton("demofile","Demo Data"),
@@ -19,6 +20,14 @@ shinyUI(pageWithSidebar(
         br(),
         code("Please delete your files before closing page."),
         br(),
+=======
+        p("If you don't have MiBand, click the Demo button then Submit button to use built-in data. Do not change default user id when using demo data."),
+        shiny::actionButton("domofile","Demo"),
+        shiny::textInput("userid","Your MiBand user id","963276123"),
+        shiny::fileInput("file1","Your databases.zip file:"),
+        shiny::actionButton("gobutton","Submit"),
+        p("Please delete your files before closing page."),
+>>>>>>> dcad271df6a81c64b92e642f9bcde0c12e629652
         shiny::actionButton("delete","Delete"),
         textOutput("isdeleted")
         ),
@@ -27,7 +36,11 @@ mainPanel(
         shiny::tabsetPanel(
                 shiny::tabPanel("Load Data",
                                 h2("Data cleaning"),
+<<<<<<< HEAD
                                 p("MiBand package can be installed from github repo: https://github.com/BigBorg/MiBand_R_Package"),
+=======
+                                p("MiBand package can be installed from github repo:"),
+>>>>>>> dcad271df6a81c64b92e642f9bcde0c12e629652
                                 code("require(devtools)"),
                                 br(),
                                 code("install_github(\"MiBand_R_Package\",\"BigBorg\")"),

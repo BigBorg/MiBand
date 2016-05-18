@@ -12,15 +12,26 @@ library(MiBand)
 library(shiny)
 
 shinyServer(function(input, output) {
+<<<<<<< HEAD
         observeEvent(input$demofile,{
+=======
+        observeEvent(input$domofile,{
+>>>>>>> dcad271df6a81c64b92e642f9bcde0c12e629652
                 if(!dir.exists("databases")){
                         unzip("./data/databases.zip")
                 }
         })
+<<<<<<< HEAD
 
          reactiveload <- reactive({
                  loadMiData("./databases",input$userid)
          })
+=======
+        
+        reactiveload <- reactive({
+                MiData <- loadMiData("~/databases",input$userid)
+        })
+>>>>>>> dcad271df6a81c64b92e642f9bcde0c12e629652
         
         observeEvent(input$gobutton,{
                 if(is.null(input$file1) & !dir.exists("databases")){
@@ -31,6 +42,7 @@ shinyServer(function(input, output) {
                         unzip(input$file1$datapath,exdir = ".")
                 }
                 output$rawsummary <- renderTable({
+<<<<<<< HEAD
                         MiData <- reactiveload()
                         summary(MiData$rawdata)
                 })
@@ -99,6 +111,49 @@ shinyServer(function(input, output) {
                 })
                 output$weekstep <- renderPlot({
                         weekplots <- reactiveweekplot()
+=======
+                        #MiData <- loadMiData("~/databases",input$userid)
+                        reactiveload()
+                        summary(MiData$rawdata)
+                })
+                output$completesummary <- renderTable({
+                        summary(MiData$completedata)
+                })
+                output$sleepbox <- renderPlot({
+                        sleepplots<-sleepPlot(MiData,show=FALSE)
+                        sleepplots$boxplot
+                })
+                output$sleepTrend <- renderPlot({
+                        sleepplots<-sleepPlot(MiData,show=FALSE)
+                        sleepplots$trendplot
+                })
+                output$weeklight <- renderPlot({
+                        weekplots <- weeksummary(MiData,FALSE)
+                        weekplots$lightsleep
+                })
+                output$weekdeep <- renderPlot({
+                        weekplots <- weeksummary(MiData,FALSE)
+                        weekplots$deepsleep
+                })
+                output$efficiencytotal <- renderPlot({
+                        efficiencyplots <- sleepEfficiencyPlot(MiData,FALSE)
+                        efficiencyplots$total
+                })
+                output$efficiencydate <- renderPlot({
+                        efficiencyplots <- sleepEfficiencyPlot(MiData,FALSE)
+                        efficiencyplots$date
+                })
+                output$stepHist <- renderPlot({
+                        stepplots <- stepPlot(MiData,FALSE)
+                        stepplots$hist
+                })
+                output$stepTrend <- renderPlot({
+                        stepplots <- stepPlot(MiData,FALSE)
+                        stepplots$trend
+                })
+                output$weekstep <- renderPlot({
+                        weekplots <- weeksummary(MiData,FALSE)
+>>>>>>> dcad271df6a81c64b92e642f9bcde0c12e629652
                         weekplots$step
                 })
            })
