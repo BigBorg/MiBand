@@ -10,7 +10,6 @@ shinyUI(pageWithSidebar(
   headerPanel("MiBand Analysis"),
   
   sidebarPanel(
-        p("If the cloud server does not have MiBand library installed, it might take some time to install the package."),
         p("If you don't have MiBand, click the Demo button then Submit button to use built-in data. Do not change default user id when using demo data."),
         shiny::actionButton("demofile","Demo Data"),
         shiny::textInput("userid","Your MiBand user id","963276123"),

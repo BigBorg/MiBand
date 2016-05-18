@@ -17,11 +17,9 @@ shinyServer(function(input, output) {
                         unzip("./data/databases.zip")
                 }
         })
-
          reactiveload <- reactive({
                  loadMiData("./databases",input$userid)
          })
-        
         observeEvent(input$gobutton,{
                 if(is.null(input$file1) & !dir.exists("databases")){
                         print("NULL")
