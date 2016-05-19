@@ -5,6 +5,8 @@
 #
 
 library(shiny)
+library(MiBand)
+library(plotly)
 
 shinyUI(pageWithSidebar(
   headerPanel("MiBand Analysis"),
@@ -16,6 +18,7 @@ shinyUI(pageWithSidebar(
         shiny::fileInput("file1","Your databases.zip file:"),
         shiny::actionButton("gobutton","Submit"),
         br(),
+        sliderInput("bins","bins",min = 1,max=100,value = 30),
         code("Please delete your files before closing page."),
         br(),
         shiny::actionButton("delete","Delete"),
@@ -25,68 +28,70 @@ shinyUI(pageWithSidebar(
 mainPanel(
         shiny::tabsetPanel(
                 shiny::tabPanel("Load Data",
-                                h2("Data cleaning"),
+                                h2("Data Loading"),
                                 p("MiBand package can be installed from github repo: https://github.com/BigBorg/MiBand_R_Package"),
                                 code("require(devtools)"),
                                 br(),
                                 code("install_github(\"MiBand_R_Package\",\"BigBorg\")"),
                                 br(),
                                 code("library(MiBand)"),
-                                p("loadMiData function reads in Mi Databases file and return a list of raw data and cleaned data"),
+                                p("loadMiData function reads in Mi Databases file and return a list of clean data and data with missing value substituted"),
                                 code("MiData <- loadMiData(\"~/databases\",\"user_id=963276123\")"),
                                 br(),
-                                code("summary(MiData$rawdata)"),
+                                code("summary(MiData$data_clean)"),
                                 tableOutput("rawsummary"),
-                                code("summary(MiData$completedata)"),
+                                code("summary(MiData$data_week)"),
                                 tableOutput("completesummary")
+                                # p("View data_week: missing value filled with mean value of the same day of a week"),
+                                # chartOutput("data_week","polyCharts")
                                 ),
                 shiny::tabPanel("Sleep",
                                 h2("Sleep Analysis"),
-                                h4("Compare light sleep and deep sleep."),
-                                p("\"sleepPlot\" function returns plots in a list. The first parameter is the object returned by function \"loadMiData\", the second parameter sets whether to show plots directly or simply return plots as a list"),
-                                code("sleepplots<-sleepPlot(MiData,show=FALSE)"),
+                                h4("hist sleep"),
+                                code("p<-miPlot(MiData,'hist',y=\"sleep\",bins=input$bins)"),
                                 br(),
-                                code("sleepplots$boxplot"),
-                                plotOutput("sleepbox"),
-                                h4("Trend Plot"),
-                                code("sleepplots$trendplot"),
-                                plotOutput("sleepTrend"),
-                                h2("Sleep Efficiency"),
-                                h4("Against Total Sleep"),
-                                p("\"sleepEfficiencyPlot\" function plots sleep efficiency against total sleep duration. Sleep Efficiency is caculated as deep sleep divided by total sleep"),
-                                code("efficiencyplots <- sleepEfficiencyPlot(MiData,FALSE)"),
+                                code("ggplotly(p)"),
+                                plotlyOutput("hist_sleep"), # hist sleep
+                                h4("box sleep"),
+                                code("p<-miPlot(MiData,'box',y=\"sleep\")"),
                                 br(),
-                                code("efficiencyplots$total"),
-                                plotOutput("efficiencytotal"),
-                                h4("Against Date"),
-                                code("efficiencyplots$date"),
-                                plotOutput("efficiencydate"),
-                                h2("Weekly Means"),
-                                code("weeksum <- weeksummary(MiData,FALSE)"),
+                                code("ggplotly(p)"),
+                                plotlyOutput("box_sleep"), # box sleep
+                                h4("ts sleep"),
+                                code("p<-miPlot(MiData,'ts',y=\"sleep\")"),
                                 br(),
-                                code("weeksum$lightsleep"),
-                                plotOutput("weeklight"),
-                                code("weeksum$deepsleep"),
-                                plotOutput("weekdeep")
-                                ),
-                shiny::tabPanel("Step",
+                                code("ggplotly(p)"),
+                                plotlyOutput("ts_sleep"), # ts sleep
+                                h4("week sleep"),
+                                code("p<-miPlot(MiData,'week',y=\"sleep\")"),
+                                br(),
+                                code("ggplotly(p)"),
+                                plotlyOutput("week_sleep"), # week sleep
+                                h4("week efficiency"),
+                                code("p<-miPlot(MiData,'week',y=\"efficiency\")"),
+                                br(),
+                                code("ggplotly(p)"),
+                                plotlyOutput("week_efficiency") # week efficiency
+        ),
+                shiny::tabPanel("Step", 
                                 h2("Step Analysis"),
-                                h4("Hist"),
-                                p("\"stepPlot\" function returns histogram plot and a trend plot as a list."),
-                                code("stepplots <- stepPlot(MiData,FALSE)"),
+                                h4("hist step"), # hist step
+                                code("p<-miPlot(MiData,'hist',y=\"step\")"),
                                 br(),
-                                code("stepplots$hist"),
-                                plotOutput("stepHist"),
-                                h4("Trend"),
-                                code("stepplots$trend"),
-                                plotOutput("stepTrend"),
-                                h2("Weekly Means"),
-                                code("weeksum <- weeksummary(MiData,FALSE)"),
+                                code("ggplotly(p)"),
+                                plotlyOutput("hist_step"),
+                                h4("ts step"), # ts step
+                                code("p<-miPlot(MiData,'ts',y=\"step\")"),
                                 br(),
-                                code("weeksum$step"),
-                                plotOutput("weekstep")
+                                code("ggplotly(p)"),
+                                plotlyOutput("ts_step"),
+                                h4("week step"), # week step
+                                code("p<-miPlot(MiData,'week',y=\"step\")"),
+                                br(),
+                                code("ggplotly(p)"),
+                                plotlyOutput("week_step")
                                 )
-        )
-)
+        ) 
 
 ))
+)

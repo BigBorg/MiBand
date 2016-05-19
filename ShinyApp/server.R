@@ -3,13 +3,9 @@
 # 
 # http://www.rstudio.com/shiny/
 #
-
-if(!"MiBand" %in% installed.packages()){
-        require(devtools)
-        install_github("MiBand_R_Package","BigBorg")
-}
 library(MiBand)
 library(shiny)
+library(rCharts)
 
 shinyServer(function(input, output) {
         observeEvent(input$demofile,{
@@ -28,76 +24,63 @@ shinyServer(function(input, output) {
                 if(!is.null(input$file1)){
                         unzip(input$file1$datapath,exdir = ".")
                 }
+                # First Tab Panel: Loading Data
                 output$rawsummary <- renderTable({
                         MiData <- reactiveload()
-                        summary(MiData$rawdata)
+                        summary(MiData$data_clean)
                 })
                 output$completesummary <- renderTable({
                         MiData <- reactiveload()
-                        summary(MiData$completedata)
+                        summary(MiData$data_week)
                 })
+                # output$data_week <- renderChart({
+                #         MiData <- reactiveload()
+                #         table<-dTable(MiData$data_week)
+                #         table$addParams(dom = 'data_week')
+                # })
+                
                 
                 #Sleep
-                reactivesleepplot <- reactive({
-                  MiData <- reactiveload()
-                  sleepPlot(MiData,show=FALSE)
-                })  # reactive
-                
-                output$sleepbox <- renderPlot({
+                output$hist_sleep <- renderPlotly({
                         MiData <- reactiveload()
-                        sleepplots<-reactivesleepplot()
-                        sleepplots$boxplot
+                        p <- miPlot(MiData,"hist","sleep",bins = input$bins)
+                        ggplotly(p)
                 })
-                output$sleepTrend <- renderPlot({
+                output$box_sleep <- renderPlotly({
                         MiData <- reactiveload()
-                        sleepplots<-reactivesleepplot()
-                        sleepplots$trendplot
+                        p <- miPlot(MiData,"box","sleep")
+                        ggplotly(p)
                 })
-                
-                
-                reactiveweekplot <- reactive({
+                output$ts_sleep <- renderPlotly({
                         MiData <- reactiveload()
-                        weeksummary(MiData,FALSE)
-                })  # reactive
-                output$weeklight <- renderPlot({
-                        weekplots <- reactiveweekplot()
-                        weekplots$lightsleep
+                        p <- miPlot(MiData,"ts","sleep")
+                        ggplotly(p)
                 })
-                output$weekdeep <- renderPlot({
-                        weekplots <- reactiveweekplot()
-                        weekplots$deepsleep
+                output$week_sleep <- renderPlotly({
+                        MiData <- reactiveload()
+                        p <- miPlot(MiData,"week","sleep")
+                        ggplotly(p)
                 })
-                
-                reactiveefficiency <- reactive({
-                  MiData <- reactiveload()
-                  sleepEfficiencyPlot(MiData,FALSE)
+                output$week_efficiency <- renderPlotly({
+                        MiData <- reactiveload()
+                        p <- miPlot(MiData,"week","efficiency")
+                        ggplotly(p)
                 })
-                
-                output$efficiencytotal <- renderPlot({
-                        efficiencyplots <- reactiveefficiency()
-                        efficiencyplots$total
-                })
-                output$efficiencydate <- renderPlot({
-                        efficiencyplots <- reactiveefficiency()
-                        efficiencyplots$date
-                })
-                
                 #Step
-                reactivestep <- reactive({
-                  MiData <- reactiveload()
-                  stepPlot(MiData,FALSE)
+                output$hist_step <- renderPlotly({
+                        MiData <- reactiveload()
+                        p <- miPlot(MiData,"hist","step",bins = input$bins)
+                        ggplotly(p)
                 })
-                output$stepHist <- renderPlot({
-                        stepplots <- reactivestep()
-                        stepplots$hist
+                output$ts_step <- renderPlotly({
+                        MiData <- reactiveload()
+                        p <- miPlot(MiData,"ts","step")
+                        ggplotly(p)
                 })
-                output$stepTrend <- renderPlot({
-                        stepplots <- reactivestep()
-                        stepplots$trend
-                })
-                output$weekstep <- renderPlot({
-                        weekplots <- reactiveweekplot()
-                        weekplots$step
+                output$week_step <- renderPlotly({
+                        MiData <- reactiveload()
+                        p <- miPlot(MiData,"week","step")
+                        ggplotly(p)
                 })
            })
         
