@@ -11,6 +11,6 @@ Compress /data/data/com.xiaomi.hm.health/databases directory to create your own 
 
 <code>
 <img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/Load.png", width=750/>
-<img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/sleep.gif" width=550/>
-<img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/step.gif" width=550/>
+<img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/sleep.gif" width=750/>
+<img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/step.gif" width=750/>
 </code>
