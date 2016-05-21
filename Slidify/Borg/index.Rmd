@@ -4,7 +4,7 @@ subtitle    :
 author      : Borg
 job         : Data Scientist
 framework   : shower       # {io2012, html5slides, shower, dzslides, ...}
-highlighter : highlight.js  # {highlight.js, prettify, highlight}
+highlighter : prettify  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
 widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
@@ -39,5 +39,5 @@ Similar to the sleep tab panel, you can still use the slider to conrol the hist 
 
 ---
 # About My Package
-I've packaged a bunch of code for MiBand data cleaning and plotting. Since XiaoMi encodes steps, light sleep and deep sleep variables into jason and put them in **ONE** variable in database file, data cleaning for MiBand is not quit easy. But with my package, you only need to use loadMiData function and provide database foler path and user id.  
+I've packaged a bunch of codes for MiBand data cleaning and plotting. Since XiaoMi encodes step, light sleep and deep sleep variables into jason and put them in **ONE** single column in database file, data cleaning for MiBand is not quite easy. But with my package, you only need to use loadMiData function and provide database folder path and user id.  
 For plotting, I put various ggplot inside miPlot function. The parameter **type** specifies which type of plot you want to make. It could be one of "hist", "ts", "box", "week". The **y** parameter specifies the variable to be plotted. It could be one of "light", "deep", "sleep", "efficiency". 

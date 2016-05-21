@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="libraries/frameworks/shower/themes/ribbon/styles/screen.css">
 	<link rel="stylesheet" media="print"
 	  href="libraries/frameworks/shower/themes/ribbon/styles/print.css">
-	<link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css">  <link rel="stylesheet" href = "assets/css/ribbons.css">
+	<link rel="stylesheet" href="libraries/highlighters/prettify/css/tomorrow.css">  <link rel="stylesheet" href = "assets/css/ribbons.css">
 
 	<!--
 		To apply styles to the certain slides
@@ -68,14 +68,16 @@ To use my built-in data, click the <strong>demo data</strong> button to decompre
   <div>
     <h2>Step</h2>
     <p>Similar to the sleep tab panel, you can still use the slider to conrol the hist plot.<br>
-<img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/step.gif" width=550/></p>
+<code>
+<img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/step.gif" width=550/>
+</code></p>
 
   </div>
 </section>
 <section class="slide " id="slide-5">
   <div>
     <h2>About My Package</h2>
-    <p>I&#39;ve packaged a bunch of code for MiBand data cleaning and plotting. Since XiaoMi encodes steps, light sleep and deep sleep variables into jason and put them in <strong>ONE</strong> variable in database file, data cleaning for MiBand is not quit easy. But with my package, you only need to use loadMiData function and provide database foler path and user id.<br>
+    <p>I&#39;ve packaged a bunch of codes for MiBand data cleaning and plotting. Since XiaoMi encodes step, light sleep and deep sleep variables into jason and put them in <strong>ONE</strong> single column in database file, data cleaning for MiBand is not quite easy. But with my package, you only need to use loadMiData function and provide database folder path and user id.<br>
 For plotting, I put various ggplot inside miPlot function. The parameter <strong>type</strong> specifies which type of plot you want to make. It could be one of &quot;hist&quot;, &quot;ts&quot;, &quot;box&quot;, &quot;week&quot;. The <strong>y</strong> parameter specifies the variable to be plotted. It could be one of &quot;light&quot;, &quot;deep&quot;, &quot;sleep&quot;, &quot;efficiency&quot;. </p>
 
   </div>
@@ -84,11 +86,17 @@ For plotting, I put various ggplot inside miPlot function. The parameter <strong
     <div></div>
   </div>
 	<script src="libraries/frameworks/shower/shower.js"></script>
-	<!-- LOAD HIGHLIGHTER JS FILES -->
-	<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
-	<!-- DONE LOADING HIGHLIGHTER JS FILES -->
-	 
+	<!-- Google Prettify -->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+	<script src='libraries/highlighters/prettify/js/lang-r.js'></script>
+	<script>
+	  var pres = document.getElementsByTagName("pre");
+	  for (var i=0; i < pres.length; ++i) {
+	    pres[i].className = "prettyprint linenums";
+	  }
+	  prettyPrint();
+	</script>
+	<!-- End Google Prettify --> 
 		<!-- Copyright © 2010–2012 Vadim Makeev — pepelsbey.net -->
 	<!-- Photos by John Carey — fiftyfootshadows.net -->
 </body>
