@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<title>MiBand Library and Products</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=1274, user-scalable=no">
+	<meta name="description" content="MiBand Library and Products">
+	<meta name="author" content="Borg">
+	<meta name="generator" content="slidify" />
+	<!-- LOAD STYLE SHEETS -->
+	<link rel="stylesheet" href="libraries/frameworks/shower/themes/ribbon/styles/screen.css">
+	<link rel="stylesheet" media="print"
+	  href="libraries/frameworks/shower/themes/ribbon/styles/print.css">
+	<link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css">  <link rel="stylesheet" href = "assets/css/ribbons.css">
+
+	<!--
+		To apply styles to the certain slides
+		use slide ID to get needed elements
+		-->
+	<style>
+		#Cover h2 {
+      margin:65px 0 0;
+			color:#FFF;
+			text-align:center;
+			font-size:70px;
+			}
+		#FitToWidth h2,
+		#FitToHeight h2 {
+			color:#FFF;
+			text-align:center;
+			}
+	</style> 
+</head>
+<body class="list">
+  <header class="caption">
+  	<h1>MiBand Library and Products</h1>
+	</header>
+  <section class="slide " id="slide-1">
+  <div>
+    <h2>MiBand Shiny Application</h2>
+    <p><a href="https://github.com/BigBorg/MiBand-Products/tree/master/ShinyApp">MiBand shiny app</a> demonstrates how to use my <a href="https://github.com/BigBorg/MiBand_R_Package">MiBand R package</a>.<br>
+You could upload your own databases.zip file or you can use my built-in data to play aroud. To get your own databases.zip file, you need to compress folder /data/data/com.xiaomi.hm.health/databases from android. Then you&#39;ll need your own user id which can be found inside MiBand&#39;s official android app.<br>
+To use my built-in data, click the <strong>demo data</strong> button to decompress my own zip file, then you can click the <strong>submit</strong> button to produce output.</p>
+
+  </div>
+</section>
+<section class="slide " id="slide-2">
+  <div>
+    <h2>Load Data</h2>
+    <p>The first tab panel will print out brief summary of the loaded MiBand data after submit button is clicked. 
+<code>
+<img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/Load.png", width=750>
+</code></p>
+
+  </div>
+</section>
+<section class="slide " id="slide-3">
+  <div>
+    <h2>Sleep</h2>
+    <p>Switch to sleep tab panel, you can drag the slider on the left to control how many bars will be presented. Also remember to roll down to see other plots. Every ggplot is converted to ggplotly, which means you can easily see values in the plot and even to zoom in and out.
+<code>
+<img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/sleep.gif" width=550/>
+</code></p>
+
+  </div>
+</section>
+<section class="slide " id="slide-4">
+  <div>
+    <h2>Step</h2>
+    <p>Similar to the sleep tab panel, you can still use the slider to conrol the hist plot.<br>
+<img src="http://7xshuq.com1.z0.glb.clouddn.com/blog/img/step.gif" width=550/></p>
+
+  </div>
+</section>
+<section class="slide " id="slide-5">
+  <div>
+    <h2>About My Package</h2>
+    <p>I&#39;ve packaged a bunch of code for MiBand data cleaning and plotting. Since XiaoMi encodes steps, light sleep and deep sleep variables into jason and put them in <strong>ONE</strong> variable in database file, data cleaning for MiBand is not quit easy. But with my package, you only need to use loadMiData function and provide database foler path and user id.<br>
+For plotting, I put various ggplot inside miPlot function. The parameter <strong>type</strong> specifies which type of plot you want to make. It could be one of &quot;hist&quot;, &quot;ts&quot;, &quot;box&quot;, &quot;week&quot;. The <strong>y</strong> parameter specifies the variable to be plotted. It could be one of &quot;light&quot;, &quot;deep&quot;, &quot;sleep&quot;, &quot;efficiency&quot;. </p>
+
+  </div>
+</section>
+  <div class="progress">
+    <div></div>
+  </div>
+	<script src="libraries/frameworks/shower/shower.js"></script>
+	<!-- LOAD HIGHLIGHTER JS FILES -->
+	<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+	 
+		<!-- Copyright © 2010–2012 Vadim Makeev — pepelsbey.net -->
+	<!-- Photos by John Carey — fiftyfootshadows.net -->
+</body>
+</html>

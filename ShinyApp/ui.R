@@ -12,7 +12,8 @@ shinyUI(pageWithSidebar(
   headerPanel("MiBand Analysis"),
   
   sidebarPanel(
-        p("If you don't have MiBand, click the Demo button then Submit button to use built-in data. Do not change default user id when using demo data."),
+        p("Compress /data/data/com.xiaomi.hm.health/databases directory from android to create your own databases.zip file(folder structure maintained). After decompression, there should be a folder named databases containing .db files. User id can be founded in MiBand android app's user info page or inside databases directory as part of file name origin_db_<userid>.db. "),
+        p("If you don't have MiBand, click the Demo button to decompress demo zip file. Then click Submit button to create ui output. Do not change default user id when using demo data."),
         shiny::actionButton("demofile","Demo Data"),
         shiny::textInput("userid","Your MiBand user id","963276123"),
         shiny::fileInput("file1","Your databases.zip file:"),
