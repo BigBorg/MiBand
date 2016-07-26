@@ -8,16 +8,11 @@ library(shiny)
 library(rCharts)
 
 shinyServer(function(input, output) {
-        observeEvent(input$demofile,{
-                if(!dir.exists("databases")){
-                        unzip("./data/databases.zip")
-                }
-        })
          reactiveload <- reactive({
-                 loadMiData("./databases",input$userid)
+                 loadMiData("./data/databases",input$userid)
          })
         observeEvent(input$gobutton,{
-                if(is.null(input$file1) & !dir.exists("databases")){
+                if(is.null(input$file1) & !dir.exists("./data/databases")){
                         print("NULL")
                         return(NULL)
                 }
@@ -83,13 +78,4 @@ shinyServer(function(input, output) {
                         ggplotly(p)
                 })
            })
-        
-        observeEvent(input$delete,{
-                if(dir.exists("databases")){
-                        system("rm -r databases")
-                }
-                if(!dir.exists("databases")){
-                        "Successfully Deleted!"
-                }
-        })
 })
